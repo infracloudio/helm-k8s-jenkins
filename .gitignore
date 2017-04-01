@@ -1,0 +1,7 @@
+.idea/*
+helm/*.tgz
+k8s/credentials/harshal*
+k8s/credentials/*.json
+k8s/*.tfstate
+k8s/*.tfstate.backup
+k8s/*.tfvars
