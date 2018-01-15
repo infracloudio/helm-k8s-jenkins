@@ -1,18 +1,21 @@
 node 
 {
-    docker.withRegistry('https://hub.docker.com/r/harshals/demo-go-app/', 'harshals-Docker-hub') {
-    
-        git url: "https://github.com/infracloudio/demo-go-app.git", credentialsId: 'harshal-github-creds'
-    
-        sh "git rev-parse HEAD > .git/commit-id"
-        def commit_id = readFile('.git/commit-id').trim()
-        println commit_id
-    
-        stage "build"
-        def app = docker.build "demo-go-app"
-    
-        stage "publish"
-        app.push 'master'
-        app.push "${commit_id}"
-    }
+withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-creds',
+usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']])
+  {
+
+    def appName = "demo-go-app"
+    def imageTag = "${USERNAME}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
+    checkout scm 
+    stage 'Build image'
+      sh("docker build -t ${imageTag} .")
+
+    stage 'Push image to registry'
+      sh("docker login -u ${USERNAME} -p ${PASSWORD} ")
+      sh("docker push ${imageTag}")
+    stage 'Deploy Application'
+      sh("kubectl set image deployment/demo-app-${env.BRANCH_NAME} -n prod frontend=${imageTag} ")
+  }
+
 }
+

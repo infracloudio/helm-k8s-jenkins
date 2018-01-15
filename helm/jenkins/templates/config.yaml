@@ -45,10 +45,6 @@ data:
               <mountPath>/var/run/docker.sock</mountPath>
               <hostPath>/var/run/docker.sock</hostPath>
             </org.csanchez.jenkins.plugins.kubernetes.volumes.HostPathVolume>
-            <org.csanchez.jenkins.plugins.kubernetes.volumes.HostPathVolume>
-              <mountPath>/root/.docker/config.json</mountPath>
-              <hostPath>{{ .Values.Agent.DockerConfigPath }}/.docker/config.json</hostPath>
-            </org.csanchez.jenkins.plugins.kubernetes.volumes.HostPathVolume>
           </volumes>              
               <containers>
                 <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>

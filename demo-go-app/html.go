@@ -18,7 +18,7 @@ const (
 <div class="row">
 <div class="col s2">&nbsp;</div>
 <div class="col s8">
-<div class="card orange">
+<div class="card blue">
 <div class="card-content white-text">
 <div class="card-title">Pod that serviced this request</div>
 </div>

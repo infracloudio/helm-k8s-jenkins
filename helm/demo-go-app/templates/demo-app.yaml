@@ -72,3 +72,21 @@ spec:
   selector:
     app: demo-app
     role: frontend
+    env: prod
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: demo-app-lb-canary
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+    protocol: TCP
+  selector:
+    app: demo-app
+    role: frontend
+    env: canary
+---
